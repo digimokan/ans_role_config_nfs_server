@@ -1,0 +1,8 @@
+- name: "Restart system '{{ nfs_server_service_name }}' service"
+  ansible.builtin.service:
+    name: "{{ nfs_server_service_name }}"
+    state: restarted
+  become: true
+  become_user: root
+  listen: restart_nfs_server_service
+

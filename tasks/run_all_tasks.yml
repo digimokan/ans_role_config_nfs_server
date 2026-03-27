@@ -1,0 +1,6 @@
+- name: "Install the NFS server"
+  ansible.builtin.include_tasks: install/main.yml
+
+- name: "Configure the NFS server"
+  ansible.builtin.include_tasks: configure/main.yml
+

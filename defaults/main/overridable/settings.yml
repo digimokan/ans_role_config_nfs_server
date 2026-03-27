@@ -1,0 +1,14 @@
+# version support for various NVFS versions
+nfs_server_enable_nfsv3: false
+nfs_server_enable_nfsv4: true
+
+# support client-name lookup of actual file owner (prevents 'nobody')
+# see https://man.freebsd.org/cgi/man.cgi?query=nfsv4&sektion=4&format=html
+nfs_server_resolve_filename_owner: true
+
+# for NVSv4, increase performance by allowing client to manipulate file locally
+nfs_server_nfsv4_enable_client_delegations: true
+
+# for NVSv4, allow the NFS server to lock (i.e. access) the data in NFS shares
+nfs_server_nfsv4_enable_server_nfs_share_locking: false
+
