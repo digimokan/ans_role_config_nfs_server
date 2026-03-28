@@ -1,21 +1,21 @@
-- name: "Run all role tasks for Ubuntu"
-  ansible.builtin.include_tasks: run_all_tasks.yml
-  vars:
+- name: "Set all OS-specific role vars for Ubuntu"
+  ansible.builtin.set_fact:
     nfs_server_package_names: "{{ nfs_server_ubuntu_package_names }}"
     nfs_server_service_name: "{{ nfs_server_ubuntu_service_name }}"
   when: ansible_distribution == "Ubuntu"
 
-- name: "Run all role tasks for Arch Linux"
-  ansible.builtin.include_tasks: run_all_tasks.yml
-  vars:
+- name: "Set all OS-specific role vars for Arch Linux"
+  ansible.builtin.set_fact:
     nfs_server_package_names: "{{ nfs_server_archlinux_package_names }}"
     nfs_server_service_name: "{{ nfs_server_archlinux_service_name }}"
   when: ansible_os_family == "Archlinux"
 
-- name: "Run all role tasks for FreeBSD"
-  ansible.builtin.include_tasks: run_all_tasks.yml
-  vars:
+- name: "Set all OS-specific role vars for FreeBSD"
+  ansible.builtin.set_fact:
     nfs_server_package_names: "{{ nfs_server_freebsd_package_names }}"
     nfs_server_service_name: "{{ nfs_server_freebsd_service_name }}"
   when: ansible_os_family == "FreeBSD"
+
+- name: "Run all role tasks"
+  ansible.builtin.include_tasks: run_all_tasks.yml
 
