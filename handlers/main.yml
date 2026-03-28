@@ -14,6 +14,6 @@
   become: true
   become_user: root
   listen: restart_nfs_server_service
-  when: (nfs_server_enable_nfsv3 or nfs_server_enable_nfsv4) and
+  when: nfs_server_enable_nfsv4 and
         nfs_server_nfsv4_enable_useratdomain_mapping_service
 

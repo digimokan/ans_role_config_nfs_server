@@ -22,7 +22,7 @@
     name: "{{ nfs_server_mapping_service_name }}"
     enabled: "{{ status }}"
   vars:
-    status: "{{ (en_v3 or en_v3) and nfs_server_nfsv4_enable_useratdomain_mapping_service }}"
+    status: "{{ en_v4 and nfs_server_nfsv4_enable_useratdomain_mapping_service }}"
   become: true
   become_user: root
 
@@ -31,7 +31,7 @@
     name: "{{ nfs_server_mapping_service_name }}"
     state: "{{ status }}"
   vars:
-    status: "{{ 'started' if ((en_v3 or en_v3) and nfs_server_nfsv4_enable_useratdomain_mapping_service) else 'stopped' }}"
+    status: "{{ 'started' if (en_v4 and nfs_server_nfsv4_enable_useratdomain_mapping_service) else 'stopped' }}"
   become: true
   become_user: root
   changed_when: false
