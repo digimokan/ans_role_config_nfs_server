@@ -18,7 +18,7 @@
   become_user: root
   notify: restart_nfs_server_service
 
-- name: "Set all idempotent security hardening options in '{{ nfs_server_freebsd_sysctl_conf_path }}'"
+- name: "Set all NFS settings in '{{ nfs_server_freebsd_sysctl_conf_path }}'"
   ansible.posix.sysctl:
     sysctl_file: "{{ nfs_server_freebsd_sysctl_conf_path }}"
     name: "{{ setting.nm }}"
