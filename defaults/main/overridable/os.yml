@@ -10,6 +10,10 @@ nfs_server_ubuntu_service_name: "nfs-kernel-server"
 nfs_server_archlinux_service_name: nfs-server"
 nfs_server_freebsd_service_name: "nfsd"
 
+# NFS user@domain-mapping service name
+nfs_server_linux_mapping_service_name: "nfs-idmapd"
+nfs_server_freebsd_mapping_service_name: "nfsuserd"
+
 # config file for host info, network info, and services to start at boot
 nfs_server_freebsd_rc_conf_filepath: "/etc/rc.conf"
 

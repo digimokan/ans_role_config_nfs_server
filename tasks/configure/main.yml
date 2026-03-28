@@ -1,15 +1,6 @@
-- name: "Ensure '{{ nfs_server_service_name }}' service is started"
-  ansible.builtin.service:
-    name: "{{ nfs_server_service_name }}"
-    state: "{{ 'started' if (nfs_server_enable_nfsv3 or nfs_server_enable_nfsv4) else 'stopped' }}"
-  become: true
-  become_user: root
-  changed_when: false
+- name: "Configure NFS server services"
+  ansible.builtin.include_tasks: services/main.yml
 
-- name: "Configure NFS server settings for FreeBSD"
-  ansible.builtin.include_tasks: freebsd/main.yml
-  vars:
-    en_v3: "{{ nfs_server_enable_nfsv3 }}"
-    en_v4: "{{ nfs_server_enable_nfsv4 }}"
-  when: ansible_os_family == "FreeBSD"
+- name: "Configure NFS server settings"
+  ansible.builtin.include_tasks: settings/main.yml
 

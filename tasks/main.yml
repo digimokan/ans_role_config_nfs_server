@@ -2,20 +2,26 @@
   ansible.builtin.set_fact:
     nfs_server_package_names: "{{ nfs_server_ubuntu_package_names }}"
     nfs_server_service_name: "{{ nfs_server_ubuntu_service_name }}"
+    nfs_server_mapping_service_name: "{{ nfs_server_linux_mapping_service_name }}"
   when: ansible_distribution == "Ubuntu"
 
 - name: "Set all OS-specific role vars for Arch Linux"
   ansible.builtin.set_fact:
     nfs_server_package_names: "{{ nfs_server_archlinux_package_names }}"
     nfs_server_service_name: "{{ nfs_server_archlinux_service_name }}"
+    nfs_server_mapping_service_name: "{{ nfs_server_linux_mapping_service_name }}"
   when: ansible_os_family == "Archlinux"
 
 - name: "Set all OS-specific role vars for FreeBSD"
   ansible.builtin.set_fact:
     nfs_server_package_names: "{{ nfs_server_freebsd_package_names }}"
     nfs_server_service_name: "{{ nfs_server_freebsd_service_name }}"
+    nfs_server_mapping_service_name: "{{ nfs_server_freebsd_mapping_service_name }}"
   when: ansible_os_family == "FreeBSD"
 
 - name: "Run all role tasks"
   ansible.builtin.include_tasks: run_all_tasks.yml
+  vars:
+    en_v3: "{{ nfs_server_enable_nfsv3 }}"
+    en_v4: "{{ nfs_server_enable_nfsv4 }}"
 

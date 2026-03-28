@@ -1,6 +1,6 @@
 # ref: https://docs.freebsd.org/en/books/handbook/network-servers/#network-configuring-nfs
 # ref: https://man.freebsd.org/cgi/man.cgi?query=nfsv4&sektion=4&format=html
-#
+
 - name: "Set all NFS options in '{{ nfs_server_freebsd_rc_conf_filepath }}'"
   community.general.sysrc:
     path: "{{ nfs_server_freebsd_rc_conf_filepath }}"
@@ -8,15 +8,10 @@
     value: "{{ setting.val if setting.st else omit }}"
     state: "{{ 'present' if setting.st else 'absent' }}"
   loop:
-    - { nm: "nfs_server_enable", st: "{{ en_v3 or en_v4 }}",
-        val: "{{ 'YES' if (en_v3 or en_v4) else 'NO' }}" }
     - { nm: "nfsv4_server_enable", st: "{{ en_v4 }}",
         val: "{{ 'YES' if en_v4 else 'NO' }}" }
     - { nm: "nfsv4_server_only", st: "{{ en_v4 and (not en_v3) }}",
         val: "{{ 'YES' if (en_v4 and (not en_v3)) else 'NO' }}" }
-    - { nm: "nfsuserd_enable",
-        st: "{{ (en_v3 or en_v4) and nfs_server_resolve_filename_owner }}",
-        val: "{{ 'YES' if (en_v3 or en_v4) and nfs_server_resolve_filename_owner else 'NO' }}" }
   loop_control:
     loop_var: setting
   become: true
