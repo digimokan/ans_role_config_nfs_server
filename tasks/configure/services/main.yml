@@ -1,38 +1,26 @@
-- name: "Ensure '{{ nfs_server_service_name }}' service is enabled to start at boot: {{ status }}"
+- name: "Ensure all NFS services are enabled or disabled to start at boot, as required"
   ansible.builtin.service:
-    name: "{{ nfs_server_service_name }}"
-    enabled: "{{ status }}"
-  vars:
-    status: "{{ en_v3 or en_v4 }}"
+    name: "{{ setting.nm }}"
+    enabled: "{{ setting.st }}"
+  loop:
+    - { nm: "{{ nfs_server_service_name }}", st: "{{ en_v3 or en_v4 }}" }
+    - { nm: "{{ nfs_server_mapping_service_name }}",
+        st: "{{ en_v4 and nfs_server_nfsv4_enable_useratdomain_mapping_service }}" }
+  loop_control:
+    loop_var: setting
   become: true
   become_user: root
 
-- name: "Ensure '{{ nfs_server_service_name }}' service is {{ status }}"
+- name: "Ensure all NFS services are started or stopped, as required"
   ansible.builtin.service:
-    name: "{{ nfs_server_service_name }}"
-    state: "{{ status }}"
-  vars:
-    status: "{{ 'started' if (en_v3 or en_v4) else 'stopped' }}"
+    name: "{{ setting.nm }}"
+    state: "{{ 'started' if setting.st else 'stopped' }}"
+  loop:
+    - { nm: "{{ nfs_server_service_name }}", st: "{{ en_v3 or en_v4 }}" }
+    - { nm: "{{ nfs_server_mapping_service_name }}",
+        st: "{{ en_v4 and nfs_server_nfsv4_enable_useratdomain_mapping_service }}" }
+  loop_control:
+    loop_var: setting
   become: true
   become_user: root
-  changed_when: false
-
-- name: "Ensure '{{ nfs_server_mapping_service_name }}' service is enabled to start at boot: {{ status }}"
-  ansible.builtin.service:
-    name: "{{ nfs_server_mapping_service_name }}"
-    enabled: "{{ status }}"
-  vars:
-    status: "{{ en_v4 and nfs_server_nfsv4_enable_useratdomain_mapping_service }}"
-  become: true
-  become_user: root
-
-- name: "Ensure '{{ nfs_server_mapping_service_name }}' service is {{ status }}"
-  ansible.builtin.service:
-    name: "{{ nfs_server_mapping_service_name }}"
-    state: "{{ status }}"
-  vars:
-    status: "{{ 'started' if (en_v4 and nfs_server_nfsv4_enable_useratdomain_mapping_service) else 'stopped' }}"
-  become: true
-  become_user: root
-  changed_when: false
 
